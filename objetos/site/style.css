@@ -146,3 +146,23 @@ a:hover {
 a:active {
   color: #343a40;
 }
+
+
+/* parte do projetos */
+.port:link{ color: #ffffff;}
+
+/* link que foi visitado */
+.port:visited{
+  color: #ffffff;
+}
+
+/* mouse over */
+.port:hover{
+  color: #ffffff;
+}
+
+/* link selecionado */
+
+.port:active{
+  color: #ffffff;
+}

@@ -5,11 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link type="text/scss" href="style.scss" />
+    <link type="text/css" href="style.scss" />
  </head>
  <body>
-
-    <div class="wrapper" id="app">
+  <div class="wrapper" id="app">
     <div class="card-form">
       <div class="card-list">
         <div class="card-item" v-bind:class="{ '-active' : isCardFlipped }">
@@ -126,7 +125,7 @@
           </div>
         </div>
       </div>
-      <div class="card-form-coco">
+      <div class="card-form__inner">
         <div class="card-input">
           <label for="cardNumber" class="card-input__label">Card Number</label>
           <input type="text" id="cardNumber" class="card-input__input" v-mask="generateCardNumberMask" v-model="cardNumber" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardNumber" autocomplete="off">
@@ -167,6 +166,10 @@
       </div>
     </div>
     
+    <a href="https://github.com/muhammederdem/credit-card-form" target="_blank" class="github-btn">
+      See on GitHub
+    </a>
+  </div>
   </div>
   <script type="text/javascript" src="js.js"></script>
 </body>

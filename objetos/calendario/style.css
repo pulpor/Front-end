@@ -1,0 +1,62 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,600;0,700;1,400&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url("https://lh3.googleusercontent.com/-b-KprVwlsz1QL_FGXB8aZlnN6394FpIEQ23xLTLLnD4KdVlzH2eQmuCB3MAyfZGBXG-3QrcYwDRpFhvTTN4evwFz4bwBdtUdQDXgYrSgOz7Mhowie0fGg2tqSeOmLMUyO1ZzldXhhY3Eas406AcLlO2WhRzwdDxHhgLGdjSWvWkG59kBDcRIUGTDsp5vJJeP_rhDjwudqA0KmW8UoC5B4TwmKB2MgPfNPC3dhx-as0piVX2sOSOjazW0pkc0cOb8szS6XRef2HiLNrxuUIauyQxxA8te7pU4j-IH-smVyt5UV3vVb8moXnyjwTt4ehFe49k_5zXMLhlzvqDiRRPSifuLqCG3OGXXe8CzWhIgs1jNRQouaYli7eFKYrXg9nY7wNGmfIA7uc0xEVwPqtWDrZcivk4EndyOsLTjMvOP36m4MwdiREVcg-v-BQEz8zTijY222Mn9zdrBTMrOQ0vIYW18c7DSUVygV2N3ZRyyrQdykDHu5AbaRigZ3vUWXpC_urfIQPMU5rKeYMBKKBev7pxDyCv7OocOzRKSkBTYVMPgaG4d_5zjvyNKn8DFWcb4T8fc5CTTOAJ4V5rgMz6GsEoo5y0zW-FZLBtVDDfiPOoHFicVc77JeU4apYxVJVCYp3LgXytFa4Mb1cl9nvwjMdHX-7gcIwUJrNfZA-MCuH8zVPzUgY00Yh3eRV6j7IOWeFUKh4oxuVWNpWkQO7A_52SoE2pXUM9ZN5WvLPo1MT1vG856FPcADQf1pm1BeirQX2I1KLMVrUFl9oJ6rNzFVIUGoipV3ZmPOkoHsj78d41nJL0N6axdsZZ5eYXwPZd5b2paPwIiuIn6vMJspQSWrgWUYQ1pK6Tx2fjre-jGTOrU0aYGoSSkc-rDRfPkzxMUvRpCpx3QtXbMNRoSOsmbJfwDOddYEBWa2ufq7P0tWGj-SE=w1866-h1050-no?authuser=0");
+  background-size: cover;
+  background-position: center;
+}
+
+.calendar {
+  position: relative;
+  width: 200px;
+  background: #fff;
+  text-align: center;
+  border-radius: 8px;
+  overflow: hidden;
+  -webkit-box-reflect: below 1px linear-gradient(transparent, transparent, #000400);
+}
+
+.calendar #monthName {
+  position: relative;
+  padding: 5px 10px;
+  background: #000000;
+  color: #fff;
+  font-size: 30px;
+}
+
+.calendar #dayName {
+  margin: 20px;
+  font-size: 20px;
+  font-weight: 300;
+  color: #464646;
+}
+
+.calendar #dayNumber {
+  margin: 0;
+  line-height: 1em;
+  font-size: 80px;
+  font-weight: 700;
+  color: #2c2c2c;
+}
+
+.calendar #year {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #999;
+}/*# sourceMappingURL=style.css.map */
+
+
+p:first-letter {
+  text-transform: uppercase;
+}
