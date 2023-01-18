@@ -1,631 +1,884 @@
-@import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600,700|Source+Sans+Pro:400,600,700&display=swap");
+// Extra small screen / phone
+$screen-xs-min: 480px;
+
+// Small screen / tablet
+$screen-sm-min: 768px;
+
+// Medium screen / desktop
+$screen-md-min: 992px;
+
+// Large screen / wide desktop
+$screen-lg-min: 1200px;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max: ($screen-sm-min - 1);
+$screen-sm-max: ($screen-md-min - 1);
+$screen-md-max: ($screen-lg-min - 1);
 
 
-body {
-  background: #ddeefc;
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 16px;
-}
-* {
-  box-sizing: border-box;
-  &:focus {
-    outline: none;
+@mixin respondTo($media) {
+  @if $media == "xs" {
+    @media only screen and (max-width: $screen-xs-max) {
+      @content;
+    }
+  }
+
+  @else if $media == "sm" {
+    @media only screen and (max-width: $screen-sm-max) and (min-width: $screen-sm-min) {
+      @content;
+    }
+  }
+
+  @else if $media == "md" {
+    @media only screen and (max-width: $screen-md-max) and (min-width: $screen-md-min) {
+      @content;
+    }
+  }
+
+  @else if $media == "lg" {
+    @media only screen and (min-width: $screen-lg-min) {
+      @content;
+    }
   }
 }
-.wrapper {
-  min-height: 100vh;
+@mixin respondToAbove($media) {
+  @if $media == "xs" {
+    @media only screen and (min-width: $screen-xs-max) {
+      @content;
+    }
+  }
+
+  @else if $media == "sm" {
+    @media only screen and (min-width: $screen-sm-min) {
+      @content;
+    }
+  }
+
+  @else if $media == "md" {
+    @media only screen and (min-width: $screen-md-min) {
+      @content;
+    }
+  }
+
+  @else if $media == "lg" {
+    @media only screen and (min-width: $screen-lg-min) {
+      @content;
+    }
+  }
+}
+@mixin respondToBelow($media) {
+  @if $media == "xs" {
+    @media only screen and (max-width: $screen-xs-max) {
+      @content;
+    }
+  }
+
+  @else if $media == "sm" {
+    @media only screen and (max-width: $screen-sm-max) {
+      @content;
+    }
+  }
+
+  @else if $media == "md" {
+    @media only screen and (max-width: $screen-md-max) {
+      @content;
+    }
+  }
+
+  @else if $media == "lg" {
+    @media only screen {
+      @content;
+    }
+  }
+}
+@mixin respondToTablet {
+  @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max){
+    @content;
+  }
+}
+@mixin respondToSmall-n-Medium {
+  @media (min-width: $screen-sm-min) and (max-width: $screen-md-max){
+    @content;
+  }
+}
+@mixin respondToMobile() {
+  @include respondTo(xs){
+    @content
+      }
+}
+@mixin respondToDesktop() {
+  @include respondToAbove(md){
+    @content
+      }
+}
+@mixin clearfix {
+  &:before {
+    content: "";
+    display: table;
+  }
+
+  &:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+@mixin rounded_corners($radius: 5px) {
+  -moz-border-radius: $radius;
+  -webkit-border-radius: $radius;
+  border-radius: $radius;
+}
+@mixin input {
+  padding: 0 20px;
+  margin: 0.5em 0;
+  border: 1px solid darken(#e1e1e1, 20%);
+  height: 40px;
+  display: block;
+  width: 80%;
+  max-width: 80%;
+  background: rgba(255,255,255,.5);
+  @include respondTo(xs) {
+    width: 100%;
+    max-width: 100%;
+  }
+  outline: none;
+}
+
+// Provides a cross-browser method to implement `display: inline-block;`
+@mixin inline-block($alignment: middle) {
+  display: -moz-inline-stack;
+  display: inline-block;
+  @if $alignment and $alignment != none {
+    vertical-align: $alignment;
+  }
+  *vertical-align: auto;
+  zoom: 1;
+  *display: inline;
+}
+@mixin background_gradient($min_color, $max_color,$color_stop1:0%, $color_stop2:100%) {
+  background: $min_color;
+  background: -moz-linear-gradient(top, $min_color $color_stop1, $max_color $color_stop2);
+  background: -o-linear-gradient(top, $min_color $color_stop1, $max_color $color_stop2);
+  background: -webkit-linear-gradient(top, $min_color $color_stop1, $max_color $color_stop2);
+  background: -ms-linear-gradient(top, $min_color $color_stop1, $max_color $color_stop2);
+  background: -webkit-gradient(linear,left top,left bottom,color-stop($color_stop1/100%, $min_color),color-stop($color_stop2/100%, $max_color));
+  background: linear-gradient(to bottom, $min_color $color_stop1, $max_color $color_stop2);
+  zoom: 1; // fix for ie7 issue
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#{$min_color}, endColorStr=#{$max_color});
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorStr=#{$min_color}, endColorStr=#{$max_color});
+}
+@mixin box-shadow($value) {
+  -webkit-box-shadow: $value;
+  -moz-box-shadow: $value;
+  box-shadow: $value;
+}
+@mixin font_family($font_type,$font_stretch:'normal') {
+  @if $font-stretch == "condensed" {
+    font-family: $font-condensed;
+  }
+
+  @else if $font_type == "primary" {
+    font-family: $font-primary;
+  }
+  @else {
+    font-family: $font-secondary;
+  }
+}
+@mixin font-size($sizeValue) {
+  font-size: ($sizeValue * 10) + px;
+  font-size: $sizeValue + rem;
+}
+
+//-------------
+@mixin shadow-box {
+  border: 1px solid darken(#e1e1e1, 5%);
+  @include rounded_corners(5px);
+  box-shadow: 4px 4px 5px #e1e1e1;
+}
+@mixin transition($value) {
+  transition: $value;
+  -moz-transition: $value;
+  -webkit-transition: $value;
+}
+@mixin flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
-  padding: 50px 15px;
-  @media screen and (max-width: 700px), (max-height: 500px) {
-    flex-wrap: wrap;
-    flex-direction: column;
+}
+@mixin flex-grow($value) {
+  -webkit-box-flex: $value;
+  -webkit-flex: $value;
+  -ms-flex: $value;
+  flex: $value;
+}
+@mixin flex-wrap {
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+@mixin align-items($value) {
+  -ms-align-items: $value;
+  -moz-align-items: $value;
+  -webkit-align-items: $value;
+  align-items: $value;
+}
+@mixin justify-content($value) {
+  -ms-justify-content: $value;
+  -moz-justify-content: $value;
+  -webkit-justify-content: $value;
+  justify-content: $value;
+}
+@mixin flex-direction($value) {
+  -ms-flex-direction: $value;
+  -moz-flex-direction: $value;
+  -webkit-flex-direction: $value;
+  flex-direction: $value;
+}
+@mixin flex-basis($value) {
+  -webkit-box-flex: $value;
+  -webkit-flex: $value;
+  -ms-flex: $value;
+  flex: $value;
+}
+@mixin fontAwesome($fsize,$ascii,$fcolor) {
+  font: normal normal normal $fsize/1 FontAwesome;
+  content: $ascii;
+  color: $fcolor;
+}
+@mixin input-placeholder-font($value1, $value2) {
+  input::-webkit-input-placeholder {
+    color: $value1;
+    @include font-size($value2);
+  }
+
+  input::-moz-placeholder {
+    color: $value1;
+    @include font-size($value2);
+  }
+
+  input:-moz-placeholder {
+    color: $value1;
+    @include font-size($value2);
+  }
+
+  input:-ms-input-placeholder {
+    color: $value1;
+    @include font-size($value2);
   }
 }
-
-.card-form {
-  max-width: 570px;
-  margin: auto;
+@mixin radio-button {
+  position: absolute;
+  left: 0;
   width: 100%;
+  opacity: 0;
+  z-index: 1;
+  height: 25px;
+  cursor: pointer;
 
-  @media screen and (max-width: 576px) {
-    margin: 0 auto;
-  }
-
-  &__inner {
-    background: #fff;
-    // box-shadow: 3px 13px 30px 0px rgba(21, 34, 67, 0.2);
-    box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
-    border-radius: 10px;
-    padding: 35px;
-    padding-top: 180px;
-
-    @media screen and (max-width: 480px) {
-      padding: 25px;
-      padding-top: 165px;
-    }
-    @media screen and (max-width: 360px) {
-      padding: 15px;
-      padding-top: 165px;
-    }
-  }
-
-  &__row {
-    display: flex;
-    align-items: flex-start;
-    @media screen and (max-width: 480px) {
-      flex-wrap: wrap;
-    }
-  }
-
-  &__col {
-    flex: auto;
-    margin-right: 35px;
-
-    &:last-child {
-      margin-right: 0;
-    }
-
-    @media screen and (max-width: 480px) {
-      margin-right: 0;
-      flex: unset;
-      width: 100%;
-      margin-bottom: 20px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    &.-cvv {
-      max-width: 150px;
-      @media screen and (max-width: 480px) {
-        max-width: initial;
-      }
-    }
-  }
-
-  &__group {
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-
-    .card-input__input {
-      flex: 1;
-      margin-right: 15px;
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-  }
-
-  &__button {
-    width: 100%;
-    height: 55px;
-    background: #2364d2;
-    border: none;
-    border-radius: 5px;
-    font-size: 22px;
-    font-weight: 500;
-    font-family: "Source Sans Pro", sans-serif;
-    box-shadow: 3px 10px 20px 0px rgba(35, 100, 210, 0.3);
-    color: #fff;
-    margin-top: 20px;
-    cursor: pointer;
-
-    @media screen and (max-width: 480px) {
-      margin-top: 10px;
-    }
-  }
-}
-
-.card-item {
-  max-width: 430px;
-  height: 270px;
-  margin-left: auto;
-  margin-right: auto;
-  position: relative;
-  z-index: 2;
-  width: 100%;
-
-  @media screen and (max-width: 480px) {
-    max-width: 310px;
-    height: 220px;
-    width: 90%;
-  }
-
-  @media screen and (max-width: 360px) {
-    height: 180px;
-  }
-
-  &.-active {
-    .card-item__side {
-      &.-front {
-        transform: perspective(1000px) rotateY(180deg) rotateX(0deg)
-          rotateZ(0deg);
-      }
-      &.-back {
-        transform: perspective(1000px) rotateY(0) rotateX(0deg) rotateZ(0deg);
-        // box-shadow: 0 20px 50px 0 rgba(81, 88, 206, 0.65);
-      }
-    }
-  }
-
-  &__focus {
+  &:checked + label:after {
+    content: '';
     position: absolute;
-    z-index: 3;
-    border-radius: 5px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    transition: all 0.35s cubic-bezier(0.71, 0.03, 0.56, 0.85);
-    opacity: 0;
+    background: #000;
+    @include rounded_corners(50%);
+    width: 9px;
+    height: 9px;
+    left: 3px;
+    top: 3px;
+    bottom: 4px;
     pointer-events: none;
-    overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.65);
+  }
 
-    &:after {
-      content: "";
+  & + label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 20px;
+    margin-top: 10px;
+    line-height: 15px;
+    height: 15px;
+
+    &:before {
+      font-weight: normal;
+      content: '';
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin-right: 10px;
       position: absolute;
-      top: 0;
       left: 0;
-      width: 100%;
-      background: rgb(8, 20, 47);
-      height: 100%;
-      border-radius: 5px;
-      filter: blur(25px);
-      opacity: 0.5;
-    }
-
-    &.-active {
-      opacity: 1;
-    }
-  }
-
-  &__side {
-    border-radius: 15px;
-    overflow: hidden;
-    // box-shadow: 3px 13px 30px 0px rgba(11, 19, 41, 0.5);
-    box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.55);
-    transform: perspective(2000px) rotateY(0deg) rotateX(0deg) rotate(0deg);
-    transform-style: preserve-3d;
-    transition: all 0.8s cubic-bezier(0.71, 0.03, 0.56, 0.85);
-    backface-visibility: hidden;
-    height: 100%;
-
-    &.-back {
-      position: absolute;
       top: 0;
-      left: 0;
-      width: 100%;
-      transform: perspective(2000px) rotateY(-180deg) rotateX(0deg) rotate(0deg);
-      z-index: 2;
-      padding: 0;
-      // background-color: #2364d2;
-      // background-image: linear-gradient(
-      //   43deg,
-      //   #4158d0 0%,
-      //   #8555c7 46%,
-      //   #2364d2 100%
-      // );
-      height: 100%;
-
-      .card-item__cover {
-        transform: rotateY(-180deg)
-      }
+      bottom: 1px;
+      background-color: #fff;
+      @include rounded_corners(50%);
+      border: 1px solid darken(#e1e1e1, 15%);
     }
   }
-  &__bg {
-    max-width: 100%;
-    display: block;
-    max-height: 100%;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-  }
-  &__cover {
-    height: 100%;
-    background-color: #1c1d27;
+}
+@mixin check-button {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  z-index: 1;
+  height: 25px;
+  cursor: pointer;
+
+  &:checked + label:after {
+    content: '';
     position: absolute;
-    height: 100%;
-    background-color: #1c1d27;
+    width: 9px;
+    height: 4.5px;
+    left: 3px;
+    bottom: 7px;
+    border-color: #000;
+    border-style: solid;
+    border-width: 0 0 2px 2px;
+    transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    pointer-events: none;
+  }
+
+  & + label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 20px;
+    margin-top: 10px;
+    line-height: 15px;
+    height: 15px;
+
+    &:before {
+      font-weight: normal;
+      content: '';
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin-right: 10px;
+      position: absolute;
+      left: 0;
+      bottom: 1px;
+      background-color: #fff;
+      border: 1px solid darken(#e1e1e1, 15%);
+    }
+  }
+}
+
+@mixin flat-shadow{
+  @include box-shadow(0 5px 10px -4px rgba(0,0,0,0.3));
+}
+
+
+@mixin rotate($angle) {
+  -ms-transform:rotate($angle);
+  -webkit-transform:rotate($angle);
+  transform:rotate($angle);
+}
+@mixin scale($value-1,$value-2) {
+  -ms-transform:scale($value-1,$value-2);
+  -webkit-transform:scale($value-1,$value-2);
+  transform:scale($value-1,$value-2);
+}
+@mixin skew($value-1,$value-2) {
+  -ms-transform:skew($value-1,$value-2);
+  -webkit-transform:skew($value-1,$value-2);
+  transform:skew($value-1,$value-2);
+}
+@mixin translateY($value) {
+  -ms-transform:translateY($value);
+  -webkit-transform:translateY($value);
+  transform:translateY($value);
+}
+
+@mixin transform($value) {
+  -ms-transform:($value);
+  -webkit-transform:($value);
+  transform:($value);
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content;
+  }
+  @-moz-keyframes #{$name} {
+    @content;
+  }
+  @-o-keyframes #{$name} {
+    @content;
+  }
+  @keyframes #{$name} {
+    @content;
+  }
+}
+
+
+@mixin animation($values){
+  -webkit-animation: ($values);
+  -moz-animation: ($values);
+  -ms-animation: ($values);
+  animation: ($values);
+}
+@mixin close-icon{
+  font-size: 0 !important;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  right: 20px;
+  top: 20px;   
+  font-size: 0px;
+  cursor: pointer;
+  z-index: 9;
+  border: 0;
+  background: transparent;
+  &:before,&:after{
+    content: '';
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    height: 2px;
+    background: #fff;
+    width: 50%;
+    transition: all .25s;
+    opacity: 0;
+  }
+  &:before{
+    transform: rotate(45deg);
+    opacity: 1;
+  }
+  &:after{
+    transform: rotate(-45deg);
+    opacity: 1;
+  }
+}
+@mixin radio-button{
+  display: none;
+  & + *{
+    position: relative;
+    padding-left: 30px;
+    margin-left: 10px;
+    &:before{
+      content: '';
+      width: 20px;
+      @include rounded_corners(50%);
+      height: 20px;
+      @include box-shadow(inset 0px 1px 5px rgba(0,0,0,0.5));
+      text-indent: 30px;
+      left: 0;
+      top: 0;
+      position: absolute;
+      cursor: pointer;
+    }
+    &:after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      position: absolute;
+      z-index: 1;
+      background: $dbc;
+      @include rounded_corners(50%);
+      @include transition(all .25s);
+      top: 0;
+      left: 0;
+      @include transform(scale(0));
+    }
+  }
+  &:checked + *:after {
+    @include transform(scale(.4));
+    @include transition(all .25s cubic-bezier(0.68,0.55,0.265,3));
+  }
+}
+@mixin check-box{
+  display: none;
+  & + *{
+    position: relative;
+    padding-left: 30px;
+    margin-left: 10px;
+    &:before{
+      content: '';
+      width: 18px;
+      height: 18px;
+      @include box-shadow(inset 0px 1px 5px rgba(0,0,0,0.5));
+      text-indent: 30px;
+      left: 0;
+      top: 0;
+      position: absolute;
+      cursor: pointer;
+    }
+    &:after {
+      content: '';
+      width: 25px;
+      height: 15px;
+      cursor: pointer;
+      position: absolute;
+      z-index: 1;            
+      border: solid $solid-color;
+      border-width: 0 0 7px 7px;
+      top: 0;
+      left: -3px;
+      @include transform(rotate(0deg) scale(0));
+      @include transition(all .25s);
+    }
+  }
+  &:checked + *:after {
+    @include transform(rotate(-45deg) scale(0.4));
+    @include transition(all .25s cubic-bezier(0.68,0.55,0.265,3));
+  }
+  &:checked + *:before {
+    background: $dbc;
+  }
+}
+
+@mixin calwidth($val1, $val2){
+  width: calc(#{$val1} + #{$val2})
+}
+
+@mixin transition-hvr($t-duration, $t-type){
+  position: relative;
+  transition: all $t-duration $t-type;
+  &:before,&:after{       
+    content:'';
+    position: absolute;
     left: 0;
     top: 0;
-    width: 100%;
-    border-radius: 15px;
-    overflow: hidden;
-    &:after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
+    width:0;
+    height:0;
+    transition: width $t-duration ($t-duration*3) $t-type, height $t-duration ($t-duration*2) $t-type, border ($t-duration/5) ($t-duration*4) $t-type;
+    border: solid transparent;
+    border-width: 3px 3px 0 0;
+  }
+  &:after{
+    left: auto;
+    top: auto;
+    bottom: 0;
+    right: 0;
+    transition: width  $t-duration $t-duration $t-type, height $t-duration $t-type, border ($t-duration/5) ($t-duration*2) $t-type;
+    border-width: 0 0 3px 3px;
+  }
+  &:hover{
+    &:before,&:after{
+      transition: width $t-duration $t-type, height $t-duration $t-duration $t-type, border ($t-duration/5) $t-type;
       width: 100%;
-      height: 100%;
-      background: rgba(6, 2, 29, 0.45);
+      height: 100%;         
+      border-color: $dbc;
+    }
+    &:after{
+      transition: width $t-duration ($t-duration*2) $t-type, height $t-duration ($t-duration*3)  $t-type, border ($t-duration/5) ($t-duration*2) $t-type;       
     }
   }
+}
 
-  &__top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    padding: 0 10px;
+$shadow : 0 6px 10px -2px rgba(0, 0, 0, .25);
+$solid: #b71c1c;
 
-    @media screen and (max-width: 480px) {
-      margin-bottom: 25px;
-    }
-    @media screen and (max-width: 360px) {
-      margin-bottom: 15px;
-    }
+$solid_2: #0af;
+$dbc: #272727;
+#body {
+  @include respondToAbove(sm){
+  padding: 50px;
   }
-
-  &__chip {
-    width: 60px;
-    @media screen and (max-width: 480px) {
-      width: 50px;
-    }
-    @media screen and (max-width: 360px) {
-      width: 40px;
-    }
+      @include respondTo(xs){
+  padding: 1px;
   }
-
-  &__type {
-    height: 45px;
+  background: $dbc;
+  min-height: 100vh;
+  font-family: 'Didact Gothic','Oswald', sans-serif;
+  text-transform: captalize;
+  letter-spacing: 2px;
+  &, & *{
+    transition: all .25s;
+  }
+  .out-wrap {
     position: relative;
-    display: flex;
-    justify-content: flex-end;
-    max-width: 100px;
-    margin-left: auto;
+    
+      @include respondToAbove(sm){
+    padding: 0 50px 50px;
+    }
+    width: 90%;
+    margin: auto;
+    color: #777;
+    #payment{
+      display: flex; 
+      align-items: center;
+      justify-content: center;
+      @include respondTo(xs){
+        flex-wrap: wrap;
+        >div{
+              margin: 15px auto !important;
     width: 100%;
+          &:first-child{
+            order: 2;
+          }
+        }
+      }
+      .details{
+        flex: 1;
+        max-width: 400px;
+        min-width: 300px;
+        margin-right: 50px;
+        .input-wrap{
+          display: flex;
+          flex-wrap: wrap;
+          label{
+            width: 100%;
+            margin: 25px 0 10px;
+          }
+          input{
+            flex: 1;
+            border: 0;
+            background: rgba(#000,.3);
+            height: 40px;
+            width: 100%;
+            text-transform: uppercase;
+            padding: 0 10px;
+            &:focus{
+              outline: none;
+              box-shadow: inset 0 0 10px rgba(0,0,0,.5);            
+              background: rgba(#000,.1);
+            }
+          }
+          &.four-num{
+            input{
+              margin: 0 10px 0 0;
+              text-align:center;
+              &:last-child{
+                margin: 0;
+              }
+            }
+          }
+        }
+        .halfbox{
+          display: flex;
+          >div:last-child{
+            margin-left: 25px;
+            input{
+              width: 50px
+            }
+          }
+          >div:first-child{
+            .twin{
 
-    @media screen and (max-width: 480px) {
-      height: 40px;
-      max-width: 90px;
-    }
-    @media screen and (max-width: 360px) {
-      height: 30px;
-    }
-  }
+              position: relative;
+              display: flex;
+              &:before{
+                position: absolute;
+                left: 0;
+                right:0;
+                text-align: center;
+                pointer-events: none;
+                content: '/';
+                bottom: 5px;
+                font-size: 20px;
+              }
+              &.focusit{
+                box-shadow:  inset 0 0 10px rgba(0,0,0,.5);
+                input{
+                  box-shadow: none;           
+                  background: rgba(#000,.1);
+                }
+              }
+            }
+            input{
+              width: 40px;
+            }
+          }
+        }
+      }
+      .card{
+        >div{
+          perspective: 1000px;        
+          max-width: 350px;
+          height: 200px;
+          min-width: 320px;
+          @include respondTo(xs){
+            margin: auto;
+          }
+        }
+        &.flip{
+          >div{
+            >.clayout{
+              transform: rotateY(180deg);
+              .c-front{
+                .logo{
+                  opacity: 0;
+                  transition: none;
+                }
+              }
+            }
+          }
+        }
+        .clayout{
+          position: relative;
+          transform-style: preserve-3d;
+          &.blueit{
 
-  &__typeImg {
-    max-width: 100%;
-    object-fit: contain;
-    max-height: 100%;
-    object-position: top right;
-  }
-
-  &__info {
-    color: #fff;
-    width: 100%;
-    max-width: calc(100% - 85px);
-    padding: 10px 15px;
-    font-weight: 500;
-    display: block;
-
-    cursor: pointer;
-
-    @media screen and (max-width: 480px) {
-      padding: 10px;
-    }
-  }
-
-  &__holder {
-    opacity: 0.7;
-    font-size: 13px;
-    margin-bottom: 6px;
-    @media screen and (max-width: 480px) {
-      font-size: 12px;
-      margin-bottom: 5px;
-    }
-  }
-
-  &__wrapper {
-    font-family: "Source Code Pro", monospace;
-    padding: 25px 15px;
-    position: relative;
-    z-index: 4;
-    height: 100%;
-    text-shadow: 7px 6px 10px rgba(14, 42, 90, 0.8);
-    user-select: none;
-    @media screen and (max-width: 480px) {
-      padding: 20px 10px;
-    }
-  }
-
-  &__name {
-    font-size: 18px;
-    line-height: 1;
-    white-space: nowrap;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-transform: uppercase;
-    @media screen and (max-width: 480px) {
-      font-size: 16px;
-    }
-  }
-  &__nameItem {
-    display: inline-block;
-    min-width: 8px;
-    position: relative;
-  }
-
-  &__number {
-    font-weight: 500;
-    line-height: 1;
-    color: #fff;
-    font-size: 27px;
-    margin-bottom: 35px;
-    display: inline-block;
-    padding: 10px 15px;
-    cursor: pointer;
-
-    @media screen and (max-width: 480px) {
-      font-size: 21px;
-      margin-bottom: 15px;
-      padding: 10px 10px;
-    }
-
-    @media screen and (max-width: 360px) {
-      font-size: 19px;
-      margin-bottom: 10px;
-      padding: 10px 10px;
-    }
-  }
-
-  &__numberItem {
-    width: 16px;
-    display: inline-block;
-    &.-active {
-      width: 30px;
-    }
-
-    @media screen and (max-width: 480px) {
-      width: 13px;
-
-      &.-active {
-        width: 16px;
+            .c-front,.c-back{              
+              background: linear-gradient(to right, $solid_2 , darken($solid_2, 5%));
+            }
+          }
+          .c-front,.c-back{            
+            max-width: 350px;
+            width: 100%;
+            height: 200px;
+            position:absolute;
+            z-index: 2;
+            top:0;
+            right:0;
+            transform-style: preserve-3D;
+            transform-origin: center center;
+            perspective: 50px;
+            border-radius: 10px;
+            backface-visibility: hidden;
+            @include box-shadow($shadow);
+            background: linear-gradient(to right, $solid , darken($solid, 5%));
+            color: #fff;
+            font-size: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            >p{
+              margin: 0;
+            }
+            .chiplogo{
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              width: 100%;
+              >span{
+                height: 35px;
+                width: 150px;
+                &.chip{
+                  b{
+                    position: relative;
+                    height: 30px;
+                    width: 43px;
+                    display: block;
+                    border-radius: 5px;
+                    background: #f3c251;
+                    &:before{
+                      background: url(https://d30y9cdsu7xlg0.cloudfront.net/png/190185-200.png) no-repeat center / 100% 140%; content:'';
+                      opacity:.5;
+                      position: absolute;
+                      top: 0;
+                      left:0;
+                      right:0;
+                      bottom:0;
+                    }
+                  }
+                }
+                &.logo{
+                  transform: translate3d(0,0,0);
+                  b{
+                    width: 75px;
+                    margin-left: auto;
+                    display: block;
+                    height: 100%;
+                    background-size: auto 130% !important;
+                    background-position-y: center !important;
+                    transform: translateZ(0);
+                    &.master{
+                      background: url(https://new.corezoid.com/wp-content/uploads/2016/03/visa-mastercard.png) no-repeat;
+                      background-position-x: 10px;
+                    }
+                    &.visa{
+                      background: url(https://new.corezoid.com/wp-content/uploads/2016/03/visa-mastercard.png) no-repeat;
+                      background-position-x: -60px;
+                    }
+                  }
+                }
+                &:last-child{
+                  text-align: right;
+                }
+              }
+            }
+            .cnum{
+              margin: 20px 0;
+              font-size: 20px;
+              width: 100%;
+              justify-content: space-between;
+              display: flex;
+              align-items: center;
+              align-content: center;
+              font-family: monospace;
+              span{
+                letter-spacing: 5px;
+                font-family: 'Josefin Sans', sans-serif;
+                flex: 1;
+                text-align: center;
+              }
+            }
+            .cname,.cvtr{
+              min-height: 35px;
+              max-width: 215px;
+              overflow: hidden;
+              >span{
+                display: block;
+                font-size: 8px;
+                color: #ccc;
+              }
+              label{
+                text-transform: uppercase;
+              }
+            }
+            .cvtr{
+              text-align: center;
+            }
+          }
+          .c-back{
+            padding: 0;
+            align-items: initial;
+            z-index: 1;
+            transform: rotateY(180deg);
+            .topc{
+              line-height: 20px;
+              padding: 0 10px;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              width: 100%;
+              font-size: 8px;
+              color: rgba(255,255,255,.5);
+            }
+            .backit{
+              height: 35px;
+              background: #333;
+              width: 100%;
+            }
+            .cvv{
+              margin: 0 30px;
+              width: 100%;
+              text-align: right;
+              b{
+                border-radius : 5px;
+                line-height: 25px;
+                height: 25px;
+                margin-top: 5px;
+                padding-right: 5px;
+                background: #fff;
+                display:block;
+                color: #000;
+              }
+            }
+            .chiplogo{
+              margin: 0 15px 30px 0;
+              justify-content: flex-end;
+            }
+          }
+        }
       }
     }
-
-    @media screen and (max-width: 360px) {
-      width: 12px;
-
-      &.-active {
-        width: 8px;
-      }
-    }
-  }
-
-  &__content {
-    color: #fff;
-    display: flex;
-    align-items: flex-start;
-  }
-
-  &__date {
-    flex-wrap: wrap;
-    font-size: 18px;
-    margin-left: auto;
-    padding: 10px;
-    display: inline-flex;
-    width: 80px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    cursor: pointer;
-
-    @media screen and (max-width: 480px) {
-      font-size: 16px;
-    }
-  }
-
-  &__dateItem {
-    position: relative;
-    span {
-      width: 22px;
-      display: inline-block;
-    }
-  }
-
-  &__dateTitle {
-    opacity: 0.7;
-    font-size: 13px;
-    padding-bottom: 6px;
-    width: 100%;
-
-    @media screen and (max-width: 480px) {
-      font-size: 12px;
-      padding-bottom: 5px;
-    }
-  }
-  &__band {
-    background: rgba(0, 0, 19, 0.8);
-    width: 100%;
-    height: 50px;
-    margin-top: 30px;
-    position: relative;
-    z-index: 2;
-    @media screen and (max-width: 480px) {
-      margin-top: 20px;
-    }
-    @media screen and (max-width: 360px) {
-      height: 40px;
-      margin-top: 10px;
-    }
-  }
-
-  &__cvv {
-    text-align: right;
-    position: relative;
-    z-index: 2;
-    padding: 15px;
-    .card-item__type {
-      opacity: 0.7;
-    }
-
-    @media screen and (max-width: 360px) {
-      padding: 10px 15px;
-    }
-  }
-  &__cvvTitle {
-    padding-right: 10px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #fff;
-    margin-bottom: 5px;
-  }
-  &__cvvBand {
-    height: 45px;
-    background: #fff;
-    margin-bottom: 30px;
-    text-align: right;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
-    color: #1a3b5d;
-    font-size: 18px;
-    border-radius: 4px;
-    box-shadow: 0px 10px 20px -7px rgba(32, 56, 117, 0.35);
-
-    @media screen and (max-width: 480px) {
-      height: 40px;
-      margin-bottom: 20px;
-    }
-
-    @media screen and (max-width: 360px) {
-      margin-bottom: 15px;
-    }
   }
 }
 
-.card-list {
-  margin-bottom: -130px;
-
-  @media screen and (max-width: 480px) {
-    margin-bottom: -120px;
-  }
-}
-
-.card-input {
-  margin-bottom: 20px;
-  &__label {
-    font-size: 14px;
-    margin-bottom: 5px;
-    font-weight: 500;
-    color: #1a3b5d;
-    width: 100%;
-    display: block;
-    user-select: none;
-  }
-  &__input {
-    width: 100%;
-    height: 50px;
-    border-radius: 5px;
-    box-shadow: none;
-    border: 1px solid #ced6e0;
-    transition: all 0.3s ease-in-out;
-    font-size: 18px;
-    padding: 5px 15px;
-    background: none;
-    color: #1a3b5d;
-    font-family: "Source Sans Pro", sans-serif;
-
-    &:hover,
-    &:focus {
-      border-color: #3d9cff;
-    }
-
-    &:focus {
-      box-shadow: 0px 10px 20px -13px rgba(32, 56, 117, 0.35);
-    }
-    &.-select {
-      -webkit-appearance: none;
-      background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUxJREFUeNrM1sEJwkAQBdCsngXPHsQO9O5FS7AAMVYgdqAd2IGCDWgFnryLFQiCZ8EGnJUNimiyM/tnk4HNEAg/8y6ZmMRVqz9eUJvRaSbvutCZ347bXVJy/ZnvTmdJ862Me+hAbZCTs6GHpyUi1tTSvPnqTpoWZPUa7W7ncT3vK4h4zVejy8QzM3WhVUO8ykI6jOxoGA4ig3BLHcNFSCGqGAkig2yqgpEiMsjSfY9LxYQg7L6r0X6wS29YJiYQYecemY+wHrXD1+bklGhpAhBDeu/JfIVGxaAQ9sb8CI+CQSJ+QmJg0Ii/EE2MBiIXooHRQhRCkBhNhBcEhLkwf05ZCG8ICCOpk0MULmvDSY2M8UawIRExLIQIEgHDRoghihgRIgiigBEjgiFATBACAgFgghEwSAAGgoBCBBgYAg5hYKAIFYgHBo6w9RRgAFfy160QuV8NAAAAAElFTkSuQmCC');
-      background-size: 12px;
-      background-position: 90% center;
-      background-repeat: no-repeat;
-      padding-right: 30px;
-    }
-  }
-}
-
-.slide-fade-up-enter-active {
-  transition: all 0.25s ease-in-out;
-  transition-delay: 0.1s;
-  position: relative;
-}
-.slide-fade-up-leave-active {
-  transition: all 0.25s ease-in-out;
-  position: absolute;
-}
-.slide-fade-up-enter {
-  opacity: 0;
-  transform: translateY(15px);
-  pointer-events: none;
-}
-.slide-fade-up-leave-to {
-  opacity: 0;
-  transform: translateY(-15px);
-  pointer-events: none;
-}
-
-.slide-fade-right-enter-active {
-  transition: all 0.25s ease-in-out;
-  transition-delay: 0.1s;
-  position: relative;
-}
-.slide-fade-right-leave-active {
-  transition: all 0.25s ease-in-out;
-  position: absolute;
-}
-.slide-fade-right-enter {
-  opacity: 0;
-  transform: translateX(10px) rotate(45deg);
-  pointer-events: none;
-}
-.slide-fade-right-leave-to {
-  opacity: 0;
-  transform: translateX(-10px) rotate(45deg);
-  pointer-events: none;
-}
-
-
-
-.github-btn {
-  position: absolute;
-  right: 40px;
-  bottom: 50px;
-  text-decoration: none;
-  padding: 15px 25px;
-  border-radius: 4px;
-  box-shadow: 0px 4px 30px -6px rgba(36, 52, 70, 0.65);
-  background: #24292e;
-  color: #fff;
-  font-weight: bold;
-  letter-spacing: 1px;
-  font-size: 16px;
-  text-align: center;
-  transition: all .3s ease-in-out;
-
-  @media screen and (min-width: 500px) {
-    &:hover {
-      transform: scale(1.1);
-      box-shadow: 0px 17px 20px -6px rgba(36, 52, 70, 0.36);
-    }
-  }
-
-  @media screen and (max-width: 700px) {
-    position: relative;
-    bottom: auto;
-    right: auto;
-    margin-top: 20px;
-
-    &:active {
-      transform: scale(1.1);
-      box-shadow: 0px 17px 20px -6px rgba(36, 52, 70, 0.36);
-    }
-  }
+.four-num, .cnum{
+  font-family: 'roboto' !important;
 }

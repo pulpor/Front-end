@@ -1,87 +1,52 @@
-/*
-See on github: https://github.com/muhammederdem/credit-card-form
-*/
+var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            $scope.f4 = "";
+            $scope.s4 = "";
+            $scope.t4 = "";
+            $scope.l4 = "";
+            $scope.hname = "";
+            $scope.edm = "";
+            $scope.edy = "";
+            $scope.cvv = "";
+        });
 
-new Vue({
-  el: "#app",
-  data() {
-    return {
-      currentCardBackground: Math.floor(Math.random()* 25 + 1), // just for fun :D
-      cardName: "",
-      cardNumber: "",
-      cardMonth: "",
-      cardYear: "",
-      cardCvv: "",
-      minCardYear: new Date().getFullYear(),
-      amexCardMask: "#### ###### #####",
-      otherCardMask: "#### #### #### ####",
-      cardNumberTemp: "",
-      isCardFlipped: false,
-      focusElementStyle: null,
-      isInputFocused: false
+$('.twin input').on('focus', function(){
+  $(this).parent().addClass('focusit');
+}).blur(function(){
+  $(this).parent().removeClass('focusit');
+});
+
+
+$('.four-num input[ng-model="f4"]').on('keyup change', function(){
+if($(this).val().slice(0,1) === "4"){
+  $('.logo b').attr('class','visa');
+  $('.clayout').addClass('blueit');
+}else{
+    $('.logo b').attr('class','master');
+  $('.clayout').removeClass('blueit');
+  };
+});
+$('.four-num input').on('keyup change', function(){
+  $in = $(this);
+    if ($in.val().length > 3) {
+      $in.next().focus();
+    };  
+ });
+$('input[ng-model="cvv"]').on('focus', function(){
+  $('#payment .card').addClass('flip');
+}).on('blur', function(){
+  $('#payment .card').removeClass('flip');
+});
+  $('.twin input').on('keyup change', function(){
+  $in = $(this);
+  if($in.next().length){
+    if ($in.val().length > 1) {
+      $in.next().focus();
     };
-  },
-  mounted() {
-    this.cardNumberTemp = this.otherCardMask;
-    document.getElementById("cardNumber").focus();
-  },
-  computed: {
-    getCardType () {
-      let number = this.cardNumber;
-      let re = new RegExp("^4");
-      if (number.match(re) != null) return "visa";
-
-      re = new RegExp("^(34|37)");
-      if (number.match(re) != null) return "amex";
-
-      re = new RegExp("^5[1-5]");
-      if (number.match(re) != null) return "mastercard";
-
-      re = new RegExp("^6011");
-      if (number.match(re) != null) return "discover";
-      
-      re = new RegExp('^9792')
-      if (number.match(re) != null) return 'troy'
-
-      return "visa"; // default type
-    },
-		generateCardNumberMask () {
-			return this.getCardType === "amex" ? this.amexCardMask : this.otherCardMask;
-    },
-    minCardMonth () {
-      if (this.cardYear === this.minCardYear) return new Date().getMonth() + 1;
-      return 1;
-    }
-  },
-  watch: {
-    cardYear () {
-      if (this.cardMonth < this.minCardMonth) {
-        this.cardMonth = "";
-      }
-    }
-  },
-  methods: {
-    flipCard (status) {
-      this.isCardFlipped = status;
-    },
-    focusInput (e) {
-      this.isInputFocused = true;
-      let targetRef = e.target.dataset.ref;
-      let target = this.$refs[targetRef];
-      this.focusElementStyle = {
-        width: `${target.offsetWidth}px`,
-        height: `${target.offsetHeight}px`,
-        transform: `translateX(${target.offsetLeft}px) translateY(${target.offsetTop}px)`
-      }
-    },
-    blurInput() {
-      let vm = this;
-      setTimeout(() => {
-        if (!vm.isInputFocused) {
-          vm.focusElementStyle = null;
-        }
-      }, 300);
-      vm.isInputFocused = false;
+  }
+  else{
+    if ($in.val().length > 1) {
+      $in.blur();
     }
   }
-});
+ });
