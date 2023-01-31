@@ -19,7 +19,7 @@ com valores z-index mais baixos. Isso permite que os desenvolvedores controlar
 a ordem em que os elementos aparecem em um documento e garantir que os elementos 
 importantes sejam exibidos na frente de outros elementos. */
 
-.texto {
+.loading {
     position: fixed;
     top: 0;
     left: 0;
@@ -29,13 +29,12 @@ importantes sejam exibidos na frente de outros elementos. */
     z-index: 9999;
 }
 
-.texto-texto {
+.loading-text {
 
     @include position-center;
     width: 100%;
     height: 100px;
     line-height: 100px;
-    
     span {
         display: inline-block;
         margin: 0 5px;

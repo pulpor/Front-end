@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Oswald&display=swap');
+
+
+@mixin position-center($text-align: center){
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: $text-align;
+}
+
+/* O atributo z-index é usado para controlar a ordem de sobreposição de elementos 
+em um documento CSS. Ele define a posição de um elemento em uma pilha de elementos, 
+onde elementos com valores z-index mais altos são colocados na frente de elementos 
+com valores z-index mais baixos. Isso permite que os desenvolvedores controlar 
+a ordem em que os elementos aparecem em um documento e garantir que os elementos 
+importantes sejam exibidos na frente de outros elementos. */
+
+
+
+* {
+    font-family: 'Didact Gothic', sans-serif;
+}
+
+.loading {
+   
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+   
+    z-index: 9999;
+}
+
+.loading-text {
+
+    @include position-center;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    span {
+        display: inline-block;
+        margin: 0 5px;
+        color: #343a40;
+        font-family: 'Didact Gothic' , 'Oswald', sans-serif;
+        @for $i from 0 through 6 {
+            &:nth-child(#{$i + 1}) {
+                filter: blur(0px);
+                animation: blur-text 1.5s (#{$i/5})+s
+                infinite linear alternate;
+            }
+        }
+    }
+}
+
+@keyframes blur-text {
+    0% {filter: blur(0px);}
+    100% {filter: blur(4px);}
+}
