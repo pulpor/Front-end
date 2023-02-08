@@ -1,13 +1,13 @@
-/* Font */
-
-  @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Oswald&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Oswald&display=swap');
 
 
+/* 
+::before e ::after são pseudo-elementos que permitem adicionar conteúdo antes ou depois de um elemento HTML. 
+Eles são usados para criar estilos específicos, como ícones, bordas, sombras e outros. 
+O código abaixo define a propriedade box-sizing para os elementos *, 
+*::before e *::after, tornando-os responsivos às alterações de tamanho da janela. */
 
-/* Design */
-*,
-*::before,
-*::after {
+*{
   box-sizing: border-box;
 }
 
@@ -17,17 +17,25 @@ html {
 
 body {
   color: #272727;
-  font-family: 'Didact Gothic', sans-serif;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Didact Gothic', 'Oswald', sans-serif;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400px;
   letter-spacing: 0;
   padding: 1rem;
+
 }
 
 .main{
+
   max-width: 1200px;
+  height: 1000px;
+  width: 1200px;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  
 }
 
 h1 {
@@ -62,11 +70,15 @@ img {
 }
 
 .cards {
-  display: flex;
+  display: flex;  
+  /* wrap quebra quando a tela for esticada */
   flex-wrap: wrap;
   list-style: none;
   margin: 0;
   padding: 0;
+
+  justify-content: center;
+  align-items: center;
 }
 
 .cards_item {

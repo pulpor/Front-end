@@ -113,8 +113,10 @@ body {
 
  }
 
-  /* O flex-wrap: wrap serve para quebrar o conteúdo de um elemento flexível 
-  em linhas separadas, quando necessário, para caber dentro do elemento pai.  */
+  /* O flex-wrap: wrap serve para quebrar 
+  o conteúdo de um elemento flexível 
+  em linhas separadas, quando necessário, 
+  para caber dentro do elemento pai.  */
 
  .input-group{
     display: flex;
